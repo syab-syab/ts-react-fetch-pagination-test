@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+// import logo from './logo.svg';
 import './App.css';
+import Album from './type'
+import Pagination from './Pagination'
 
 function App() {
+  const [albums, setAlbums] = useState<Album[]>([])
+
+  useEffect(() => {
+    const getAlbums = async () => {
+      await fetch("https://jsonplaceholder.typicode.com/albums/1/photos")
+      .then((res) => res.json())
+      .then((albums) => setAlbums(albums))
+      }
+      getAlbums()
+    }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Pagination albums={albums} />
     </div>
   );
 }
